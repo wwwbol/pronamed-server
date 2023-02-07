@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/estylo.css">
+<title>Calificar</title>
+<style>
+/********calificar**********/
+.ref{
+  background-color: rgb(209, 209, 209);
+  width: 250px;
+  padding: 5px;
+  display: block;
+  text-align: center;
+  margin: auto;
+  margin-top: 10px;
+  color: black;
+}
+.contenedor{
+  display: flex;
+  justify-content: center;
+ border: solid rgb(165, 163, 163) 1px;
+  margin: 25px;
+}
+
+.hoja{
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 250mm; 
+   
+}
+.escudo{
+  width: 100px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.p1{
+  text-align: center;
+  margin: 0px;
+}
+.p2{
+  text-align: center;
+  margin: 0px;
+}
+.p3{
+  text-align: center;
+  margin: 0px;
+}
+.hr1{
+  border: 1px solid black;
+  background-color: rgb(87, 87, 87);
+  height: 5px;
+  width: 90%;
+}
+.titulo{
+  text-align: center;
+}
+.tabla1{
+  margin: auto;
+  background-color: rgb(231, 231, 231);
+}
+.tabla1 td{
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+  color: black;
+}
+.c1{
+  background-color: rgb(174, 194, 194);
+  font-weight: bold;
+}
+.c2{
+  background-color: rgb(174, 194, 194);
+  
+}
+.n{
+  font-size: 50px;
+  font-weight: 500;
+}
+.otroNom{
+  margin-left: 160px;
+}
+/********calificar**********/
+
+
+table {
+  border-collapse: collapse;
+  background-color: rgb(250, 250, 250);
+  margin: 5px;
+  margin: 15px;
+}
+td{
+  border: 1px solid #dddddd;
+  padding: 7px;
+}
+th{
+  border: 1px solid #dddddd;
+  padding: 7px;
+}
+.pendiente{
+  padding: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: rgb(255, 157, 127);
+  border-radius: 4px;
+}
+
+</style>
+
+</head>
+<body onload="inicio();">
+<!--menu-->
+<div class="inicio">
+    <div class="atrasLink">
+      <span class="iconATR" onclick="window.history.back()"></span>
+    </div>
+    <div class="contenBTN">
+      <span onclick="grupoVer('g1')" class="btn3D0">GRUPO 1</span>
+    </div>
+    <div class="contenBTN">
+      <span onclick="grupoVer('g2')" class="btn3D0">GRUPO 2</span>
+    </div>
+</div>
+<!--menu-->
+
+<div style="position: relative;height: 100px; margin-top: 5px;">
+    <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100px;" src="/images/aaa.jpg" alt="">
+    <img style="position: absolute; top: 0;  left: 50px;  width: 70px;" src="/images/escudo.png" alt="">
+</div>
+<div style="display: flex;">
+    <div style="width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;">
+        <div id="calg1" class="pendiente">Grupo 1 Calificacion Pendiente</div>
+        <div style="font-weight: bold; height: 20px;">
+            INDICADORES DE EVALUACIÓN 
+        </div>
+        <div id="calg2" class="pendiente">Grupo 2 Calificacion Pendiente</div>
+    </div>
+</div>
+
+<div style="display: flex;">
+    <div class="cuadro1">
+        <div style="background-color: rgb(255, 255, 255);
+        padding: 10px;">
+            <div>NOMBRE DEL PROYECTO:  <span id="proy"></span></div>
+            <div>CURSO:  <span id="cur"></span></div>
+            <br>
+            <div>NOMBRES: </div>
+            <div style="display: flex; align-items: center;">
+                <div style="width: 5px; height: 5px;background-color: black; border-radius: 50%;margin-left: 25px; margin-right: 10px;"></div>
+                <span id="nom1"></span>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div style="width: 5px; height: 5px;background-color: black; border-radius: 50%;margin-left: 25px; margin-right: 10px;"></div>
+                <span id="nom2"></span>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div style="width: 5px; height: 5px;background-color: black; border-radius: 50%;margin-left: 25px; margin-right: 10px;"></div>
+                <span id="nom3"></span>
+            </div>
+            
+        </div>
+        <div class="contendTabla">
+            <table class="tablaNotas" id="tabla1">
+                <tbody>                
+                    <tr>
+                        <td colspan="2" style="text-align: center;font-weight: bold;">SER(10)</td>
+                        <td colspan="2" style="text-align: center;font-weight: bold;">SABER(35)</td>
+                        <td colspan="2" style="text-align: center;font-weight: bold;">HACER(35)</td>
+                        <td colspan="2" style="text-align: center;font-weight: bold;">DECIDIR(10)</td>
+                        <td colspan="2" style="text-align: center;font-weight: bold;">SER - DECIDIR(10)</td>
+                        <td rowspan="6" style="text-align: center;font-weight: bold;">
+                            <span>TOTAL</span> <span id="total"></span> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>INDICADOR</td>
+                        <td>NOTA</td>
+                        <td>INDICADOR</td>
+                        <td>NOTA</td>
+                        <td>INDICADOR</td>
+                        <td>NOTA</td>
+                        <td>INDICADOR</td>
+                        <td>NOTA</td>
+                        <td>INDICADOR</td>
+                        <td>NOTA</td>
+                    </tr>
+                    <tr>
+                        <td class="c2">Puntualidad</td>
+                        <td class="c2">
+                            <select id="puntualidad" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                        <td class="c2">Presentación del Tema</td>
+                        <td class="c2">
+                            <select id="presentacionTema" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        <td class="c2">Informe </td>
+                        <td class="c2">
+                            <select id="informe" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        <td rowspan="3" class="c2">Predisposición y habilidad en en la presentación del proyecto.</td>
+                        <td rowspan="3" class="c2">
+                            <select id="predispocicion" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                        <td rowspan="2" class="c2">Responsabi-lidad y res-peto en el desarrollo de la feria educativa.</td>
+                        <td rowspan="2" class="c2">
+                            <select id="responsabilidad" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Presentación </td>
+                        <td>
+                            <select id="presentacion" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                        <td>Exposición</td>
+                        <td>
+                            <select id="expocicion" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        <td>Sintaxis</td>
+                        <td>
+                            <select id="sintaxis" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="c2">Solidaridad </td>
+                        <td class="c2">
+                            <select id="solidaridad" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                        <td class="c2">Dominio</td>
+                        <td class="c2">
+                            <select id="dominio" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        <td class="c2">Coherencia</td>
+                        <td class="c2">
+                            <select id="coherencia" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                                <option>32</option>
+                                <option>33</option>
+                                <option>34</option>
+                                <option>35</option>
+                            </select>
+                        </td>
+                        <td class="c2">Iniciativa propia</td>
+                        <td class="c2">
+                            <select id="iniciativa" data-nota>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td id="ser" data-area></td>
+                        <td>Total</td>
+                        <td id="saber" data-area></td>
+                        <td>Total</td>
+                        <td id="hacer" data-area></td>
+                        <td>Total</td>
+                        <td id="decidir" data-area></td>
+                        <td>Total</td>
+                        <td id="serDec" data-area></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+
+<!--spiner-->
+<div id="block">
+    <div id="spinner" class="lds-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div id="cajaSuccess" class="cajaSuccess">
+      <div class="circle">
+        <div id="checkSucc" class=""></div>
+      </div>
+    </div>  
+</div>  
+<!--spiner-->
+<!--
+<script src="/socket.io/socket.io.js"></script>
+-->
+<script>
+//const socket = io()
+
+/******manejo de datos******/
+document.getElementById('tabla1').addEventListener("change",regNot);
+async function regNot(){ 
+    let notas =  await formValues("nota")
+    
+    let ser = ((notas.puntualidad+notas.presentacion+notas.solidaridad)/30)*10
+    let saber = ((notas.presentacionTema+notas.expocicion+notas.dominio)/105)*35
+    let hacer = ((notas.informe+notas.sintaxis+notas.coherencia)/105)*35
+    let decidir = ((notas.predispocicion)/10)*10
+    let serDec = ((notas.responsabilidad+notas.iniciativa)/20)*10
+
+    let areas = {ser,saber,hacer,decidir,serDec}
+    
+    let total = ser+saber+hacer+decidir+serDec
+
+    llenarDatos(notas,areas,total)
+    let datNot = {notas,areas,total}
+    
+    sendDatos(datNot)
+}
+async function llenarDatos(notas,areas,total){
+    let v_a = await formWrite_modeForm("nota",notas)
+    let v_b = await formWrite_modeForm_Decimal("area",areas)
+    document.getElementById("total").textContent = total.toFixed(0)
+    verCas(notas)
+}
+async function verCas(notas){
+  var cont = 0
+  for (const key in notas) {
+    if(notas[key]==0){cont +=1}   
+  }
+  if(cont==0){
+    console.log("listo.....")
+    localStorage.setItem('cal'+grupo, "listo");
+    calificacionFin()
+  }
+}
+/******manejo de datos******/
+function calificacionFin(){
+  var calg1 = localStorage.getItem('calg1')==null?"":localStorage.getItem('calg1')
+  var calg2 = localStorage.getItem('calg2')==null?"":localStorage.getItem('calg2')
+  if(calg1!=""){
+    document.getElementById("calg1").style.backgroundColor = "rgb(113, 224, 68)"
+    document.getElementById("calg1").textContent = "Grupo 1 Calificado"
+  }
+  if(calg2!=""){
+    document.getElementById("calg2").style.backgroundColor = "rgb(113, 224, 68)"
+    document.getElementById("calg2").textContent = "Grupo 2 Calificado"
+  }
+}
+
+/******registro notas ******/
+function regNotas(datNot){
+    loadData()
+    fetch(`/regNotas`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datNot)
+    }).then(response => {
+        if (response.ok) {
+            response.text().then(Data => {       
+                console.log(Data) 
+                successDat()   
+            });
+        }
+    }
+  );
+}
+function sendDatos(datNot){
+    //console.log(datNot)
+    datNot["_id"] = grupo+"_"+localStorage.getItem('jur')
+    regNotas(datNot)
+}
+/******registro notas ******/
+
+/******pedir notas y datos******/
+var datos
+function pedirDatos(){
+  fetch('/pedirRegistro').then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Status Code: ' + response.status);
+        return;
+      }
+      response.json().then(function(data) {
+        if(data[0] != undefined){
+          datos = data[0]
+          successDat()
+        }
+      });
+    }
+  ).catch(function(err){ console.log('Fetch Error :-S', err) });
+}
+var notasGlobal
+let vacio ={"notas":{"puntualidad":0,"presentacionTema":0,"informe":0,"predispocicion":0,"responsabilidad":0,"presentacion":0,"expocicion":0,"sintaxis":0,"solidaridad":0,"dominio":0,"coherencia":0,"iniciativa":0},"areas":{"ser":0,"saber":0,"hacer":0,"decidir":0,"serDec":0},"total":0}
+function pedirDatosNotas(id){
+    fetch(`/pedirDatosNotas`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(id)
+    }).then(response => {
+      response.json().then(function(data) {
+        if(data[0] != undefined){
+          //console.log(data[0])
+          notasGlobal = data[0]
+
+            llenarDatos(notasGlobal.notas,notasGlobal.areas,notasGlobal.total)
+        }else{
+            llenarDatos(vacio.notas,vacio.areas,vacio.total)
+            console.log("sin regsitro......")
+        }
+      });
+    }
+  );
+}
+var grupo
+function grupoVer(g){
+    grupo = g
+    document.getElementById("proy").textContent = datos["TProy_"+g]
+    document.getElementById("cur").textContent = datos["cur_"+g]
+    document.getElementById("nom1").textContent = datos["nom1_"+g]
+    document.getElementById("nom2").textContent = datos["nom2_"+g]
+    document.getElementById("nom3").textContent = datos["nom3_"+g]
+    pedirDatosNotas({"_id":g+"_"+localStorage.getItem('jur')})
+}
+function inicio(){
+  loadData()
+  pedirDatos()
+  calificacionFin()
+}
+/******pedir notas y datos******/
+
+
+/* manejador de formulario */
+function formValues(id){
+    return new Promise(function(resolve,reject){
+        const f = document.querySelectorAll('[data-'+id+']')
+        var form = {}
+        for (let i = 0; i < f.length; i++) {
+            const e = f[i]
+            let id = e.id
+            let val = e.value
+            if(val==""){
+                form[id]=0
+            }else{
+                form[id]=parseFloat(val)
+            }
+        }
+        resolve(form)
+    })
+}
+function formClear(id){
+    return new Promise(function(resolve,reject){
+        const f = document.getElementById(id).querySelectorAll('[data-'+id+']')
+        for (let i = 0; i < f.length; i++) {
+            const e = f[i]
+            let id = e.id
+            document.getElementById(id).value="";
+        }
+        resolve(true)
+    })
+}
+function formWrite_modeForm(idf,data){
+    return new Promise(function(resolve,reject){
+        const f = document.querySelectorAll('[data-'+idf+']')
+        for (let i = 0; i < f.length; i++) {
+            const e = f[i]
+            let id = e.id
+            document.getElementById(id).value = data[id];;
+        }
+        resolve(true)
+    })
+}
+function formWrite_modeForm_Decimal(idf,data){
+    return new Promise(function(resolve,reject){
+        const f = document.querySelectorAll('[data-'+idf+']')
+        for (let i = 0; i < f.length; i++) {
+            const e = f[i]
+            let id = e.id
+            document.getElementById(id).textContent = data[id].toFixed(0);
+        }
+        resolve(true)
+    })
+}
+/* manejador de formulario */
+/*modal succes spiner*/
+function loadData(){
+  document.getElementById("block").style.display = "flex"
+  document.getElementById("spinner").style.display = "block"
+} 
+function successDat(){
+  
+  document.getElementById("spinner").style.display = "none"
+  document.getElementById("cajaSuccess").style.display= 'block';
+  document.getElementById("checkSucc").classList.add('success');
+  setTimeout(noSucsesDat,1000); 
+}
+function noSucsesDat(){
+  document.getElementById("cajaSuccess").classList.add('desapareser');
+  document.getElementById("block").style.display = "none"
+  setTimeout(restarSucessesDat,750); 
+}
+function restarSucessesDat(){
+ 
+  document.getElementById("cajaSuccess").style.display= 'none';
+  document.getElementById("cajaSuccess").classList.remove('desapareser');
+  document.getElementById("checkSucc").classList.remove('success');
+}
+/*modal succes spiner*/ 
+
+</script>
+</body>
+</html>
+

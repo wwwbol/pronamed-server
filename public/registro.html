@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>Registro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/estylo.css" rel="stylesheet" type="text/css" media="all" />
+<style>
+.tituloR{text-align: center;}
+.contendReg{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.CUADROS{
+  background-color: rgb(223, 223, 223);
+  width: 550px;
+  margin: 5px;
+  border-radius: 15px;
+}
+.tituloP{text-align: center;}
+.alumnoR{
+  background-color: rgb(194, 194, 194);
+  text-align: center;
+  width: 350px;
+  margin: 10px;
+  border: solid black 1px;
+  border-radius: 7px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+
+}
+.input{
+  border: solid black 1px;
+  border-radius: 7px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.alumnoR>input{
+  border-radius: 7px;
+  margin: 5px;
+}
+
+.bntReg{
+  display: flex;
+  justify-content: center;  
+}
+  
+</style>
+</head>
+<body onload="init();">
+<!--spiner-->
+<div id="block">
+  <div id="spinner" class="lds-spinner">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div id="cajaSuccess" class="cajaSuccess">
+    <div class="circle">
+      <div id="checkSucc" class=""></div>
+    </div>
+  </div>  
+</div>  
+<!--spiner-->
+<div class="bntReg">
+  <a href="pdfVenta.html">IMPRIMIR</a>
+</div>
+
+<h3 class="tituloR">REGISTRO </h3>
+
+<div class="contendReg">
+
+<div class="CUADROS">
+    <h5 class="tituloP">GRUPO 1</h5>
+    <input id="TProy_g1" data-g size="70" type="text" class="input" placeholder="TITULO DE PROYECTO 1">
+    <input id="cur_g1" data-g size="50" type="text" class="input" placeholder="CURSO">
+    <div class="alumnoR">
+        <h5>Estudiante 1</h5>
+        <input id="nom1_g1" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+        <h5>Estudiante 2</h5>
+        <input id="nom2_g1" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+        <h5>Estudiante 3</h5>
+        <input id="nom3_g1" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+</div>
+<div class="CUADROS">
+    <h5 class="tituloP">GRUPO 2</h5>
+    <input id="TProy_g2" data-g size="70" type="text" class="input" placeholder="TITULO DE PROYECTO 2">
+    <input id="cur_g2" data-g size="50" type="text" class="input" placeholder="CURSO">
+    <div class="alumnoR">
+        <h5>Estudiante 1</h5>
+        <input id="nom1_g2" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+        <h5>Estudiante 2</h5>
+        <input id="nom2_g2" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+        <h5>Estudiante 3</h5>
+        <input id="nom3_g2" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+</div>
+<div class="CUADROS">
+    <h5 class="tituloP">JURADOS</h5>
+    <div class="alumnoR">
+        <h5>JURADO 1</h5>
+        <input id="jur_a" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+      <input id="codjur_a" data-g size="40" placeholder="Codigo acceso" type="text">
+    </div>
+    <div class="alumnoR">
+        <h5>JURADO 2</h5>
+        <input id="jur_b" data-g size="40" placeholder="Nombres" type="text">
+    </div>
+    <div class="alumnoR">
+      <input id="codjur_b" data-g size="40" placeholder="Codigo acceso" type="text">
+  </div>
+
+</div>
+
+
+</div>
+ 
+<div class="bntReg">
+  <button type="button" onclick="dataSend();">REGISTRAR / EDITAR</button>
+</div>
+
+<!--
+<script src="/socket.io/socket.io.js"></script>
+-->
+<script src="js/mai.js"></script>
+<script>
+//const socket = io()
+
+async function dataSend(){
+  const datReg = await formValues("g")
+  console.log(datReg)
+  datReg["_id"] = "registro"
+  sendData(datReg)
+}
+
+function sendData(datReg) {
+  loadData()
+  fetch(`/regData`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datReg)
+    }).then(response => {
+
+      if (response.ok) {
+        response.text().then(Data => {       
+          console.log(Data) 
+          successDat()   
+        });
+      }
+    }
+  );
+}
+
+
+
+function pedirDatos(){
+  fetch('/pedirRegistro').then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Status Code: ' + response.status);
+        return;
+      }
+      response.json().then(function(data) {
+        if(data[0] != undefined){
+          formWrite_modeForm("g",data[0])
+        }
+      });
+    }
+  ).catch(function(err){ console.log('Fetch Error :-S', err) });
+}
+
+function init(){
+  pedirDatos()
+}
+
+</script> 
+</body>
+</html>
+

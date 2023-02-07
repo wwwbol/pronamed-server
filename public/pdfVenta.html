@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF</title>
+<link href="css/estylo.css" rel="stylesheet" type="text/css" media="all" />
+
+<style>
+.texTitulo{
+  display: flex;
+  justify-content: center;
+  color: white;
+  width: 90%;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+.texTitulo>button{
+  margin-left: 20px;
+  width: 200px;
+  margin-top: 0px;
+}
+.texTitulo>span{
+  margin-top: 2px;
+}
+
+.d{
+  background-color: rgba(255, 0, 0, 0.473);
+}
+/*tabla lista de provedoes del articulo*/
+table {
+  border-collapse: collapse;
+  background-color: rgb(250, 250, 250);
+  margin: 5px;
+}
+td, th {
+  border: 1px solid #dddddd;
+  padding: 7px;
+}
+.cabeza>td{
+  padding: 3px;
+  background-color: cornsilk;
+}
+/*tabla lista de provedoes del articulo*/
+.tablaVenta{
+  margin: auto;
+}
+/*******************cuadro gral*/ 
+.cant{
+  width: 50px;
+}
+#wrapper{
+  height: 90vh;
+}
+#wrapper>object{
+  height: 90vh;
+}
+#output{
+  width: 100%;
+  height: 300px;
+}
+</style>
+</head>
+<body onload="init();">
+<!--menu-->
+<div class="inicio">
+  <div class="atrasLink" >
+    <a href="index.html">
+      <span class="iconATR"></span>
+    </a>
+  </div>
+  <div class="texTitulo">
+    <button onclick="cargaNotas(1)" class="btn3D0">GRUPO 1</button>
+    <button onclick="cargaNotas(2)" class="btn3D0">GRUPO 2</button>
+  </div>
+</div>
+<!--menu-->
+
+<!--visor del archivo pdf-->
+<div>
+  <div id="wrapper" >
+    <object id="output" type="application/pdf">
+      <p>It appears you don't have PDF support in this web browser. <a href="#" id="download-link">Click here to download the PDF</a>.</p>
+    </object>
+  </div>
+</div>
+<!--visor del archivo pdf-->
+
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/jspdf.min.js"></script>
+<script src="js/jspdf.plugin.autotable.js"></script> 
+<script>
+/*datos globales*/
+var datosGlob 
+function pedirDatos(){
+  fetch('/pedirRegistro').then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Status Code: ' + response.status);
+        return;
+      }
+      response.json().then(function(data) {
+        if(data[0] != undefined){
+          datosGlob = data[0]
+          console.log(datosGlob)
+        }
+      });
+    }
+  ).catch(function(err){ console.log('Fetch Error :-S', err) });
+}
+function init(){
+  pedirDatos()
+}
+/*datos globales*/
+
+function pedirDatosNotas(id){
+  return new Promise(function(resolve,reject){
+    fetch(`/pedirDatosNotas`, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+      }).then(response => {
+        response.json().then(function(data) {
+          if(data[0] != undefined){
+            //console.log(data[0])
+            notasGlobal = data[0]
+            resolve(notasGlobal)
+          }else{
+            resolve(false)
+            console.log("sin regsitro......")
+          }
+        });
+      }
+    );
+  })
+}
+var data1
+var data2
+var gr
+async function cargaNotas(gru){
+  gr = gru
+  let id1 = "g"+gru+"_a" 
+  let id2 = "g"+gru+"_b" 
+  data1 = await pedirDatosNotas({"_id":id1})
+  data2 = await pedirDatosNotas({"_id":id2})
+  console.log({data1,data2})
+  num()
+  
+}
+
+function num(){
+
+  cuerpo1 = [
+    {
+      ser: 'Puntualidad', n1:data1["notas"]["puntualidad"].toString(), 
+      saber: 'Presentación del Tema', n2:data1["notas"]["presentacionTema"].toString(),
+      hacer: 'Informe ', n3:data1["notas"]["informe"].toString(),
+      decidir: 'Predisposición y habilidad en en la presentación del proyecto.',  n4:data1["notas"]["predispocicion"].toString(), 
+      serDecidir: 'Responsabilidad y respeto en el desarrollo de la feria educativa.',  n5:data1["notas"]["responsabilidad"].toString(),
+    },{
+      ser: 'Presentación ',   n1:data1["notas"]["presentacion"].toString(),
+      saber: 'Exposición',   n2:data1["notas"]["expocicion"].toString(),
+      hacer: 'Sintaxis',   n3:data1["notas"]["sintaxis"].toString(),
+      decidir: '',   n4:"",
+      serDecidir: '',  n5:"",
+    },{
+      ser: 'Solidaridad  ',   n1:data1["notas"]["solidaridad"].toString(),
+      saber: 'Dominio',   n2:data1["notas"]["dominio"].toString(),
+      hacer: 'Coherencia',   n3:data1["notas"]["coherencia"].toString(),
+      decidir: '',   n4:"",
+      serDecidir: '',  n5:"",
+    },{
+      ser: 'TOTAL',   n1:data1["areas"]["ser"].toFixed(0).toString(),
+      saber: 'TOTAL',  n2:data1["areas"]["saber"].toFixed(0).toString(),
+      hacer: 'TOTAL',   n3:data1["areas"]["hacer"].toFixed(0).toString(),
+      decidir:'TOTAL',  n4:data1["areas"]["decidir"].toFixed(0).toString(),
+      serDecidir:'TOTAL',  n5:data1["areas"]["serDec"].toFixed(0).toString()
+    },
+  ]
+  cuerpo2 = [
+    {
+      ser: 'Puntualidad', n1:data2["notas"]["puntualidad"].toString(), 
+      saber: 'Presentación del Tema', n2:data2["notas"]["presentacionTema"].toString(),
+      hacer: 'Informe ', n3:data2["notas"]["informe"].toString(),
+      decidir: 'Predisposición y habilidad en en la presentación del proyecto.',  n4:data2["notas"]["predispocicion"].toString(), 
+      serDecidir: 'Responsabilidad y respeto en el desarrollo de la feria educativa.',  n5:data2["notas"]["responsabilidad"].toString(),
+    },{
+      ser: 'Presentación ',   n1:data2["notas"]["presentacion"].toString(),
+      saber: 'Exposición',   n2:data2["notas"]["expocicion"].toString(),
+      hacer: 'Sintaxis',   n3:data2["notas"]["sintaxis"].toString(),
+      decidir: '',   n4:"",
+      serDecidir: '',  n5:"",
+    },{
+      ser: 'Solidaridad  ',   n1:data2["notas"]["solidaridad"].toString(),
+      saber: 'Dominio',   n2:data2["notas"]["dominio"].toString(),
+      hacer: 'Coherencia',   n3:data2["notas"]["coherencia"].toString(),
+      decidir: '',   n4:"",
+      serDecidir: '',  n5:"",
+    },{
+      ser: 'TOTAL',   n1:data2["areas"]["ser"].toFixed(0).toString(),
+      saber: 'TOTAL',  n2:data2["areas"]["saber"].toFixed(0).toString(),
+      hacer: 'TOTAL',   n3:data2["areas"]["hacer"].toFixed(0).toString(),
+      decidir:'TOTAL',  n4:data2["areas"]["decidir"].toFixed(0).toString(),
+      serDecidir:'TOTAL',  n5:data2["areas"]["serDec"].toFixed(0).toString()
+    },
+  ]
+  console.log({cuerpo1,cuerpo2})
+  datosPdf()
+}
+
+var cabeza = {
+  ser: 'SER (10)', 
+  n1:"",
+  saber: 'SABER (35)',
+  n2:"", 
+  hacer: 'HACER (35)', 
+  n3:"",
+  decidir: 'DECIDIR (10)', 
+  n4:"",
+  serDecidir: 'SER - DECIDIR (10)',
+  n5:"",
+}
+let wc = 30
+
+var columnStyles =  { 
+  ser: {cellWidth: wc},
+  saber: {cellWidth: wc}, 
+  hacer: {cellWidth: wc},
+  decidir: {cellWidth: wc},
+  serDecidir: {cellWidth: wc},
+ 
+}
+
+var examples = {};
+function datosPdf(){
+
+  examples.basic = function () {
+  var doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: 'letter'
+  });
+  /******* cabeza documento *****/
+  let posiconY = 20
+  /*logo*/
+  var logo = new Image();
+  logo.src = '/images/escudo.png';
+  doc.addImage(logo, 'PNG', 15, posiconY-10, 25, 25)
+  
+  /*logo*/
+  doc.setFontSize (15);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text("II FERIA EDUCATIVA DENOMINADA ", 75, posiconY);
+
+  doc.setFontSize (15);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text("“BUENA ALIMENTACIÓN PARA UN BUEN APRENDIZAJE”", 45, posiconY+10);
+
+  doc.setFontSize (12);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text("INDICADORES DE EVALUACIÓN", 85, posiconY+20);
+  
+  /******* cabeza documento *****/
+  
+  const fz = 11
+  let [r,g,b] = [0,0,0]
+  const col1Yin = 50
+  const col1Xin = 15
+  const col1Inter = 5
+ 
+  /**/
+  const col2Xin = 15
+  var col2 = [
+    ["NOMBRE DEL PROYECTO: ",col2Xin,datosGlob["TProy_g"+gr],55+col2Xin],
+    ["NOMBRES: ",col2Xin,"",20+col2Xin],
+    ["•",col2Xin+20,datosGlob["nom1_g"+gr],30+col2Xin],
+    ["•",col2Xin+20,datosGlob["nom2_g"+gr],30+col2Xin],
+    ["•",col2Xin+20,datosGlob["nom3_g"+gr],30+col2Xin],
+  ]
+  for (let i = 0; i < col2.length; i++) {
+    const e = col2[i];
+    doc.setFontSize (fz);
+    doc.setTextColor (r,g,b);
+    doc.text(e[0], e[1], col1Yin+i*col1Inter);
+    doc.setFontSize (fz);
+    doc.setTextColor (r,g,b);
+    doc.text(e[2], e[3], col1Yin+i*col1Inter);
+  }
+  
+  /*tabla1*/
+  let posT1Y = 85
+
+  doc.setFontSize (12);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text("JURADO: ", 17, posT1Y);
+  doc.setFontSize (12);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text(datosGlob["jur_a"], 35, posT1Y);
+
+  doc.autoTable({
+    startY: posT1Y+3,
+    columnStyles: columnStyles,
+    margin: {left:15,right: 10},
+    head: [cabeza],
+    headStyles: {
+      fillColor: [255, 255, 255],
+      fontSize: 10,
+      textColor: [0, 0, 0]
+    },
+    body: cuerpo1,
+    
+  });
+
+  doc.setFontSize (12);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text("Promedio", 17, posT1Y+62);
+  doc.setFontSize (12);
+  doc.setTextColor (0,0,0);
+  doc.setFont("courier");
+  doc.setFontType("bolditalic")
+  doc.text(data1["total"].toFixed(0).toString(), 40, posT1Y+62);
+  /*tabla1*/
+  
+
+/*tabla2*/
+let posT2Y = 160
+
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text("JURADO: ", 17, posT2Y);
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text(datosGlob["jur_b"], 35, posT2Y);
+
+doc.autoTable({
+  startY: posT2Y+3,
+  columnStyles: columnStyles,
+  margin: {left:15,right: 10},
+  head: [cabeza],
+  headStyles: {
+    fillColor: [255, 255, 255],
+    fontSize: 10,
+    textColor: [0, 0, 0]
+  },
+  body: cuerpo2,
+  
+});
+
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text("Promedio", 17, posT2Y+62);
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text(data2["total"].toFixed(0).toString(), 40, posT2Y+62);
+
+
+
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text("TOTAL PROMEDIO", 150, posT2Y+75);
+doc.setFontSize (12);
+doc.setTextColor (0,0,0);
+doc.setFont("courier");
+doc.setFontType("bolditalic")
+doc.text( ((data2["total"]+data1["total"])/2 ).toFixed(0).toString(), 190, posT2Y+75);
+/*tabla2*/
+  
+
+  /***pie de firma***/
+  let posYpie = 260
+  let posXpie = 70
+  doc.setDrawColor (0,0,0);
+  doc.setLineWidth (0.1); 
+  doc.line (posXpie-5, posYpie-5, posXpie+35, posYpie-5);
+  doc.setFontSize (10);
+  doc.setTextColor (0,0,0);
+  doc.setFont("helvetica");
+  doc.setFontType("bold");
+  doc.text("JURADO", posXpie+7, posYpie);
+
+  doc.setDrawColor (0,0,0);
+  doc.setLineWidth (0.1); 
+  doc.line (posXpie+60, posYpie-5, posXpie+100, posYpie-5);
+  doc.setFontSize (10);
+  doc.setTextColor (0,0,0);
+  doc.setFont("helvetica");
+  doc.setFontType("bold");
+  doc.text("JURADO", posXpie+70, posYpie);
+
+   /***pie de firma***/
+  
+  return doc;
+}; 
+  update() 
+}
+
+function update(shouldDownload) {
+  var funcStr = 'nota de venta';
+  var doc = examples['basic']();
+  doc.setProperties({
+    title: funcStr,
+    subject: funcStr 
+  });
+  document.getElementById("output").data = doc.output('datauristring');
+  
+}
+
+
+</script>   
+</body>
+</html>
